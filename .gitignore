@@ -26,4 +26,4 @@ file.json
 # Ignore project-specific folders or files
 /models/__pycache__/
 /tests/__pycache__/
-console.py
+
