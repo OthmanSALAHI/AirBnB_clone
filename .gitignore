@@ -18,6 +18,7 @@ __build__/
 .idea/
 .vscode/
 *.swp
+file.json
 
 # Ignore compiled Python files
 *.pyc
