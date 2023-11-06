@@ -5,12 +5,6 @@ import json
 from pathlib import Path
 from models.base_model import BaseModel
 
-#!/usr/bin/python3
-""" define FileStorage class. """
-
-import json
-from models.base_model import BaseModel
-
 
 class FileStorage:
     """ storage class it's responsible for processing then storing data """
