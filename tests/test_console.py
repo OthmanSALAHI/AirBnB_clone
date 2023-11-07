@@ -36,3 +36,13 @@ class TestHBNBcmd_prompt(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd(""))
             self.assertEqual("", output.getvalue().strip())
+
+class TestHBNBcmd_quit(unittest.TestCase):
+    """ test quit """
+    
+    def test_quit(self):
+        """test the quit cmd"""
+        with patch("sys.stdout", new=StringIO()) as output:
+            self.assertTrue(HBNBCommand().onecmd("quit"))
+        with patch("sys.stdout", new=StringIO()) as output:
+            self.assertTrue(HBNBCommand().onecmd("EOF"))
