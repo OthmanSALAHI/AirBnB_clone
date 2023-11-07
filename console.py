@@ -96,7 +96,40 @@ class HBNBCommand(cmd.Cmd):
                     obje.append(obj.__str__())
                 elif len(args) == 0:
                     obje.append(obj.__str__())
-            print(obje)
+            print(obje)            
+
+
+    def do_update(self, arg):
+        args = arg.split()
+        obj = storage.all()
+        if len(args) == 0:
+            print("** class name missing **")
+            return False
+        if args[0] not in self.__models_classes:
+            print("** class doesn't exist **")
+            return False
+        if len(args) == 1:
+            print("** instance id missing **")
+            return False
+        if "{}.{}".format(args[0], args[1]) not in obj.keys():
+            print("** no instance found **")
+            return False
+        if len(args) == 2:
+            print("** attribute name missing **")
+            return False
+        if len(args) == 3:
+            try:
+                type(eval(arg[2])) != dict
+            except NameError:
+                print("** value missing **")
+                return False
+        if len(args) == 4:
+            objc = obj[f"{args[0]}.{args[1]}"]
+            if args[2] in objc.__class__.__dict__.keys():
+                valType = type(objc.__class__.__dict__[args[2]])
+                objc.__dict__[args[2]] = valType(args[3])
+            else:
+                objc.__dict__[args[2]] = args[3]
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
