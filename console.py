@@ -102,6 +102,7 @@ class HBNBCommand(cmd.Cmd):
     def do_update(self, arg):
         args = arg.split()
         obj = storage.all()
+
         if len(args) == 0:
             print("** class name missing **")
             return False
@@ -130,6 +131,15 @@ class HBNBCommand(cmd.Cmd):
                 objc.__dict__[args[2]] = valType(args[3])
             else:
                 objc.__dict__[args[2]] = args[3]
+        elif type(eval(args[2])) == dict:
+            objc = obj[f"{args[0]}.{args[2]}"]
+            for key, val in eval(args[2]).items():
+                if key in objc.__class__.__dict__.keys() and type() in {str, int, float}:
+                    valType = type(objc.__class__.__dict__[key])
+                    objc.__dict__[key] = valType(val)
+                else:
+                    objc.__dict__[key] = val
+        storage.save()
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
