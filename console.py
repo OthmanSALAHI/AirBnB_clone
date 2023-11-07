@@ -157,8 +157,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
         else:
             cpt = 0
-            for key in obj.key():
-                if args[0] == key.__class__.__name__:
+            for val in obj.values():
+                if args[0] == val.__class__.__name__:
                     cpt += 1
             print(cpt)       
 
