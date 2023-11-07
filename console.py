@@ -4,6 +4,11 @@ import cmd
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.review import Review
+from models.place import Place
 
 class HBNBCommand(cmd.Cmd):
     """represents the entry point of the command interpreter"""
@@ -140,6 +145,22 @@ class HBNBCommand(cmd.Cmd):
                 else:
                     objc.__dict__[key] = val
         storage.save()
+
+    def do_count(self, arg):
+        """ count numbers of instances of class """
+        args = arg.split()
+        obj = storage.all()
+
+        if len(args) == 0:
+            print("** class name missing **")
+        elif args[0] not in self.__models_classes:
+            print("** class doesn't exist **")
+        else:
+            cpt = 0
+            for val in obj.values():
+                if args[0] == val.__class__.__name__:
+                    cpt += 1
+            print(cpt)       
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
