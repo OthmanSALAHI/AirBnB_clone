@@ -24,4 +24,15 @@ Unittest classes:
     TestHBNBcmd_help
 
 """
+class TestHBNBcmd_prompt(unittest.TestCase):
+    """Test prompt"""
 
+    def test_prompt(self):
+        """equalizing the prompt"""
+        self.assertEqual("(hbnb) ", HBNBCommand.prompt)
+
+    def test_emptyline(self):
+        """Test prompt"""
+        with patch("sys.stdout", new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd(""))
+            self.assertEqual("", output.getvalue().strip())
