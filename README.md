@@ -22,7 +22,7 @@ We will develop the backend as well as the frontend part of the website. Here is
 
 First. Clone this repository in your machine.
 ```sh
-$ https://github.com/OthmanSALAHI/AirBnB_clone
+$ https://github.com/OthmanSALAHIgit/AirBnB_clone
 ```
 Go to the repo.
 
@@ -78,28 +78,28 @@ The console is very powerful since it allows the developer to manage the data wh
 
 The console has the mentioned built-in commands. Here is an example of how to use it.
 
-### Create an User
+### Create an Place
 
 ```sh
-(hbnb) create User
-2f9fa3f9-4de5-4d1b-863a-1d1a140d5868
+(hbnb) create Place
+6b4e103b-3b59-49dc-bf43-300d177a6d41
 ```
 The command create retrieves an Id that will be super useful to use the other commands
 
 ### Show a previously created object
 
-With the Id we already have, we can look for the User we have created
+With the Id we already have, we can look for the Place we have created
 ```sh
-(hbnb) show User 2f9fa3f9-4de5-4d1b-863a-1d1a140d5868
-[User] (2f9fa3f9-4de5-4d1b-863a-1d1a140d5868) {'id': '2f9fa3f9-4de5-4d1b-863a-1d1a140d5868', 'created_at': datetime.datetime(2019, 11, 13, 13, 58, 14, 530494), 'updated_at': datetime.datetime(2019, 11, 13, 13, 58, 14, 530515)}
+(hbnb) show Place 6b4e103b-3b59-49dc-bf43-300d177a6d41
+[Place] (6b4e103b-3b59-49dc-bf43-300d177a6d41) {'id': '6b4e103b-3b59-49dc-bf43-300d177a6d41', 'created_at': datetime.datetime(2023, 11, 8, 11, 11, 56, 477566), 'updated_at': datetime.datetime(2023, 11, 8, 11, 11, 56, 477591)}
 ```
 
 ### Destroy an object
 
 It is also useful to delete non necessary objects
 ```sh 
-(hbnb) destroy User 2f9fa3f9-4de5-4d1b-863a-1d1a140d5868
-(hbnb) show User 2f9fa3f9-4de5-4d1b-863a-1d1a140d5868
+(hbnb) destroy Place 6b4e103b-3b59-49dc-bf43-300d177a6d41
+(hbnb) show Place 6b4e103b-3b59-49dc-bf43-300d177a6d41
 *** instance not found ***
 ```
 
