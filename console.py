@@ -5,6 +5,7 @@ from models import storage
 from models.base_model import BaseModel
 from models.user import User
 
+
 class HBNBCommand(cmd.Cmd):
     """represents the entry point of the command interpreter"""
 
@@ -17,12 +18,12 @@ class HBNBCommand(cmd.Cmd):
         "Place",
         "Amenity",
         "Review",
-    }
-    
+        }
+
     def do_quit(self, arg):
         """Quit command to exit the program"""
         return True
-    
+
     def do_EOF(self, argu):
         """EOF command to exit the program"""
         print("")
@@ -87,17 +88,16 @@ class HBNBCommand(cmd.Cmd):
     def do_all(self, arg):
         """ prints all strings """
         args = arg.split()
-        if len(args) > 0 and args[0] not in self.__models_classes :
+        if len(args) > 0 and args[0] not in self.__models_classes:
             print("** class doesn't exist **")
         else:
             obje = []
-            for obj in storage.all().values() :
+            for obj in storage.all().values():
                 if len(args) > 0 and args[0] == obj.__class__.__name__:
                     obje.append(obj.__str__())
                 elif len(args) == 0:
                     obje.append(obj.__str__())
-            print(obje)            
-
+            print(obje)
 
     def do_update(self, arg):
         args = arg.split()
@@ -134,12 +134,14 @@ class HBNBCommand(cmd.Cmd):
         elif type(eval(args[2])) == dict:
             objc = obj[f"{args[0]}.{args[2]}"]
             for key, val in eval(args[2]).items():
-                if key in objc.__class__.__dict__.keys() and type() in {str, int, float}:
+                if key in objc.__class__.__dict__.keys() and type(
+                ) in {str, int, float}:
                     valType = type(objc.__class__.__dict__[key])
                     objc.__dict__[key] = valType(val)
                 else:
                     objc.__dict__[key] = val
         storage.save()
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
