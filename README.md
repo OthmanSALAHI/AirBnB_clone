@@ -22,7 +22,7 @@ We will develop the backend as well as the frontend part of the website. Here is
 
 First. Clone this repository in your machine.
 ```sh
-$ https://github.com/carlosz22/AirBnB_clone
+$ https://github.com/OthmanSALAHI/AirBnB_clone
 ```
 Go to the repo.
 
