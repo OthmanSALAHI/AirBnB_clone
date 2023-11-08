@@ -28,6 +28,7 @@ class Testcity(unittest.TestCase):
         self.assertIsInstance(new.created_at, dt)
         self.assertIsInstance(new.updated_at, dt)
 
+
 class Testpycodestyle(unittest.TestCase):
     """ test codestyle """
     def test_pycode(self):
@@ -36,6 +37,7 @@ class Testpycodestyle(unittest.TestCase):
         result = pycode.check_files(["models/city.py"])
         MessageErr = "code style error pr warning !"
         self.assertEqual(result.total_errors, 0, MessageErr)
+
 
 if __name__ == '__main__':
     unittest.main()
