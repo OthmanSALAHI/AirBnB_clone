@@ -24,6 +24,8 @@ Unittest classes:
     TestHBNBcmd_help
 
 """
+
+
 class TestHBNBcmd_prompt(unittest.TestCase):
     """Test prompt"""
 
@@ -37,19 +39,22 @@ class TestHBNBcmd_prompt(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd(""))
             self.assertEqual("", output.getvalue().strip())
 
+
 class TestHBNBcmd_quit(unittest.TestCase):
     """ test quit """
-    
     def test_quit(self):
         """test the quit cmd"""
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertTrue(HBNBCommand().onecmd("quit"))
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertTrue(HBNBCommand().onecmd("EOF"))
+
+
 class TestHBNBcmd_EOF(unittest.TestCase):
     def test_EOF(self):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertTrue(HBNBCommand().onecmd("EOF"))
+
 
 class TestHBNBcmd_help(unittest.TestCase):
     """test over the help cmd"""
@@ -103,6 +108,7 @@ class TestHBNBcmd_help(unittest.TestCase):
             self.assertEqual(EOF, output.getvalue().strip())
 
             self.assertTrue(HBNBCommand().onecmd("create BaseModel"))
+
 
 class TestHBNBcmd_create(unittest.TestCase):
     """test over the cmd create"""
@@ -201,4 +207,3 @@ class TestHBNBcmd_create(unittest.TestCase):
             self.assertLess(0, len(output.getvalue().strip()))
             key = "Review." + output.getvalue().strip()
             self.assertTrue(key in storage.all().keys())
- 
