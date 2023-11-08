@@ -5,6 +5,7 @@ import models
 from io import StringIO
 import sys
 
+
 class Testpycodestyle(unittest.TestCase):
     """ test codestyle """
     def test_pycode(self):
@@ -13,6 +14,7 @@ class Testpycodestyle(unittest.TestCase):
         result = pycode.check_files(["models/user.py"])
         MessageErr = "code style error pr warning !"
         self.assertEqual(result.total_errors, 0, MessageErr)
+
 
 if __name__ == '__main__':
     unittest.main()
