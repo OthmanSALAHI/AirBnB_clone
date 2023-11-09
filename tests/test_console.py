@@ -378,3 +378,27 @@ class HBNBcmd_show(unittest.TestCase):
             command = "show Review {}".format(testID)
             self.assertFalse(HBNBCommand().onecmd(command))
             self.assertEqual(obj.__str__(), output.getvalue().strip())
+
+
+
+class TestHBNBCommand_all(unittest.TestCase):
+    """test the all cmd"""
+
+    @classmethod
+    def setup(self):
+        try:
+            os.rename("file.json", "tmp")
+        except IOError:
+            pass
+        FileStorage.__objects = {}
+
+    @classmethod
+    def down(self):
+        try:
+            os.remove("file.json")
+        except IOError:
+            pass
+        try:
+            os.rename("tmp", "file.json")
+        except IOError:
+            pass
