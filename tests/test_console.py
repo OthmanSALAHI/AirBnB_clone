@@ -402,3 +402,7 @@ class TestHBNBCommand_all(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
+    def test_all_invalid(self):
+        with patch("sys.stdout", new=StringIO()) as output:
+            self.assertFalse(HBNBCommand().onecmd("all Model"))
+            self.assertEqual("** class doesn't exist **", output.getvalue().strip())
