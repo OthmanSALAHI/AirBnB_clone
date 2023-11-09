@@ -529,3 +529,12 @@ class TestHBNBcmd_destroy(unittest.TestCase):
             command = f"User.destroy({TestId})"
             self.assertFalse(HBNBCommand().onecmd(command))
             self.assertNotIn(obj, storage.all())
+        with patch("sys.stdout", new_callabe=StringIO) as output:
+            command = "create City"
+            self.assertFalse(HBNBCommand().onecmd(command))
+            TestId = output.getvalue().strip()
+        with patch("sys.strout", new_callabe=StringIO) as output:
+            obj = storage.all()[f"City.{TestId}"]
+            command = f"City.destroy({TestId})"
+            self.assertFalse(HBNBCommand().onecmd(command))
+            self.assertNotIn(obj, storage.all())

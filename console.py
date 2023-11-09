@@ -91,7 +91,7 @@ class HBNBCommand(cmd.Cmd):
             storage.save()
 
     def do_all(self, arg):
-        """ prints all strings """
+        """prints all strings"""
         args = arg.split()
         if len(args) > 0 and args[0] not in self.__models_classes:
             print("** class doesn't exist **")
@@ -149,7 +149,7 @@ class HBNBCommand(cmd.Cmd):
         storage.save()
 
     def do_count(self, arg):
-        """ count numbers of instances of class """
+        """count numbers of instances of class"""
         args = arg.split()
         obj = storage.all()
 
