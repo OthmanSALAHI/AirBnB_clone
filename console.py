@@ -105,6 +105,7 @@ class HBNBCommand(cmd.Cmd):
             print(obje)
 
     def do_update(self, arg):
+        """ command that update class """
         args = arg.split()
         obj = storage.all()
 
