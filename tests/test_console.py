@@ -448,12 +448,12 @@ class TestHBNBcmd_destroy(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
+    msg = "** class doesn't exist **"
+    msg1 = "** class name missing **"
+    msg2 = "** instance id missing **"
+    msg3 = "** no instance found **"
     def invalid_syntax_and_value(self):
         """test over wrong syntax"""
-        msg = "** class doesn't exist **"
-        msg1 = "** class name missing **"
-        msg2 = "** instance id missing **"
-        msg3 = "** no instance found **"
         with patch("sys.stdout", new_callable=StringIO) as output:
             self.assertFalse(HBNBCommand().onecmd("destroy MyModel"))
             self.assertEqual(msg, output.getvalue().strip())
@@ -481,6 +481,32 @@ class TestHBNBcmd_destroy(unittest.TestCase):
         with patch("sys.stdout", new_callable=StringIO) as output:
             self.assertFalse(HBNBCommand().onecmd("destroy Review"))
             self.assertEqual(msg2, output.getvalue().strip())
+
+    def Test_Wrong_id(self):
+        """Test wrong id on classes"""
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy BaseModel 123456"))
+            self.assertEqual(msg3, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy User 123456"))
+            self.assertEqual(msg3, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy Place 123456"))
+            self.assertEqual(msg3, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy State 123456"))
+            self.assertEqual(msg3, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy City 123456"))
+            self.assertEqual(msg3, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy Amenity 123456"))
+            self.assertEqual(msg3, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy Review 123456"))
+            self.assertEqual(msg3, output.getvalue().strip())
+
+
     def Test_correct_id(self):
         """test a correct id"""
         with patch("sys.stdout", new_callabe=StringIO) as output:
