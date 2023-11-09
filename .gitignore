@@ -19,6 +19,7 @@ __build__/
 .vscode/
 *.swp
 file.json
+push.py
 
 # Ignore compiled Python files
 *.pyc
