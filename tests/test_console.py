@@ -208,6 +208,7 @@ class TestHBNBcmd_create(unittest.TestCase):
             key = "Review." + output.getvalue().strip()
             self.assertTrue(key in storage.all().keys())
 
+
 class HBNBcmd_show(unittest.TestCase):
     """test over the cmd show"""
 
@@ -380,7 +381,6 @@ class HBNBcmd_show(unittest.TestCase):
             self.assertEqual(obj.__str__(), output.getvalue().strip())
 
 
-
 class TestHBNBCommand_all(unittest.TestCase):
     """test the all cmd"""
 
@@ -402,11 +402,13 @@ class TestHBNBCommand_all(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
+
     def test_all_invalid(self):
         mssg = "** class doesn't exist **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("all Model"))
             self.assertEqual(mssg, output.getvalue().strip())
+
     def test_all_valid(self):
         with patch("sys.stdout", new_callable=StringIO) as output:
             self.assertFalse(HBNBCommand().onecmd("all BaseModel"))
@@ -426,6 +428,7 @@ class TestHBNBCommand_all(unittest.TestCase):
         with patch("sys.stdout", new_callable=StringIO) as output:
             self.assertFalse(HBNBCommand().onecmd("all Amenity"))
             self.assertTrue(len(output.getvalue().strip()) > 0)
+
 
 class TestHBNBcmd_destroy(unittest.TestCase):
     """test over destroy cmd"""
@@ -452,6 +455,7 @@ class TestHBNBcmd_destroy(unittest.TestCase):
     msg1 = "** class name missing **"
     msg2 = "** instance id missing **"
     msg3 = "** no instance found **"
+
     def invalid_syntax_and_value(self):
         """test over wrong syntax"""
         with patch("sys.stdout", new_callable=StringIO) as output:
@@ -506,7 +510,6 @@ class TestHBNBcmd_destroy(unittest.TestCase):
             self.assertFalse(HBNBCommand().onecmd("destroy Review 123456"))
             self.assertEqual(msg3, output.getvalue().strip())
 
-
     def Test_correct_id(self):
         """test a correct id"""
         with patch("sys.stdout", new_callabe=StringIO) as output:
@@ -517,4 +520,12 @@ class TestHBNBcmd_destroy(unittest.TestCase):
             command = f"BaseModel.destroy({idTest})"
             self.assertFalse(HBNBCommand().onecmd(command))
             self.assertNotIn(objet, storage.all())
-
+        with patch("sys.stdout", new_callabe=StringIO) as output:
+            command = "create User"
+            self.assertFalse(HBNBCommand().onecmd(command))
+            TestId = output.getvalue().strip()
+        with patch("sys.strout", new_callabe=StringIO) as output:
+            obj = storage.all()[f"User.{TestId}"]
+            command = f"User.destroy({TestId})"
+            self.assertFalse(HBNBCommand().onecmd(command))
+            self.assertNotIn(obj, storage.all())
