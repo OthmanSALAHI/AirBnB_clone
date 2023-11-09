@@ -425,3 +425,25 @@ class TestHBNBCommand_all(unittest.TestCase):
         with patch("sys.stdout", new_callable=StringIO) as output:
             self.assertFalse(HBNBCommand().onecmd("all Amenity"))
             self.assertTrue(len(output.getvalue().strip()) > 0)
+
+class TestHBNBcmd_destroy(unittest.TestCase):
+    """test over destroy cmd"""
+
+    @classmethod
+    def setup(self):
+        try:
+            os.rename("file.json", "tmp")
+        except IOError:
+            pass
+        FileStorage.__objects = {}
+
+    @classmethod
+    def down(self):
+        try:
+            os.remove("file.json")
+        except IOError:
+            pass
+        try:
+            os.rename("tmp", "file.json")
+        except IOError:
+            pass
