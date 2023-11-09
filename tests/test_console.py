@@ -403,9 +403,10 @@ class TestHBNBCommand_all(unittest.TestCase):
         except IOError:
             pass
     def test_all_invalid(self):
+        mssg = "** class doesn't exist **"
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("all Model"))
-            self.assertEqual("** class doesn't exist **", output.getvalue().strip())
+            self.assertEqual(mssg, output.getvalue().strip())
     def test_all_valid(self):
         with patch("sys.stdout", new_callable=StringIO) as output:
             self.assertFalse(HBNBCommand().onecmd("all BaseModel"))
@@ -480,3 +481,14 @@ class TestHBNBcmd_destroy(unittest.TestCase):
         with patch("sys.stdout", new_callable=StringIO) as output:
             self.assertFalse(HBNBCommand().onecmd("destroy Review"))
             self.assertEqual(msg2, output.getvalue().strip())
+    def Test_correct_id(self):
+        """test a correct id"""
+        with patch("sys.stdout", new_callabe=StringIO) as output:
+            self.assertFalse(HBNBCommand.onecmd("create BaseModel"))
+            idTest = output.getvalue().strip()
+        with patch("sys.stdout", new_callabe=StringIO) as output:
+            objet = storage.all()[f"BaseModel.{idTest}"]
+            command = f"BaseModel.destroy({idTest})"
+            self.assertFalse(HBNBCommand().onecmd(command))
+            self.assertNotIn(objet, storage.all())
+
