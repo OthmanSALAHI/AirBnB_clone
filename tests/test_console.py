@@ -406,3 +406,22 @@ class TestHBNBCommand_all(unittest.TestCase):
         with patch("sys.stdout", new=StringIO()) as output:
             self.assertFalse(HBNBCommand().onecmd("all Model"))
             self.assertEqual("** class doesn't exist **", output.getvalue().strip())
+    def test_all_valid(self):
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("all BaseModel"))
+            self.assertTrue(len(output.getvalue().strip()) > 0)
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("all User"))
+            self.assertTrue(len(output.getvalue().strip()) > 0)
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("all Place"))
+            self.assertTrue(len(output.getvalue().strip()) > 0)
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("all State"))
+            self.assertTrue(len(output.getvalue().strip()) > 0)
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("all City"))
+            self.assertTrue(len(output.getvalue().strip()) > 0)
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("all Amenity"))
+            self.assertTrue(len(output.getvalue().strip()) > 0)
