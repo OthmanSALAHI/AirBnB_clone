@@ -105,7 +105,7 @@ class HBNBCommand(cmd.Cmd):
             print(obje)
 
     def do_update(self, arg):
-        """ command that update class """
+        """update <class name> <id> <attribute name> "<attribute value>"""
         args = arg.split()
         obj = storage.all()
 
