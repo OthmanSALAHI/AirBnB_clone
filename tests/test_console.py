@@ -447,3 +447,36 @@ class TestHBNBcmd_destroy(unittest.TestCase):
             os.rename("tmp", "file.json")
         except IOError:
             pass
+    def invalid_syntax_and_value(self):
+        """test over wrong syntax"""
+        msg = "** class doesn't exist **"
+        msg1 = "** class name missing **"
+        msg2 = "** instance id missing **"
+        msg3 = "** no instance found **"
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy MyModel"))
+            self.assertEqual(msg, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy"))
+            self.assertEqual(msg1, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy BaseModel"))
+            self.assertEqual(msg2, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy User"))
+            self.assertEqual(msg2, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy Place"))
+            self.assertEqual(msg2, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy State"))
+            self.assertEqual(msg2, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy City"))
+            self.assertEqual(msg2, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy Amenity"))
+            self.assertEqual(msg2, output.getvalue().strip())
+        with patch("sys.stdout", new_callable=StringIO) as output:
+            self.assertFalse(HBNBCommand().onecmd("destroy Review"))
+            self.assertEqual(msg2, output.getvalue().strip())
