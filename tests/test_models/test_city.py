@@ -1,60 +1,79 @@
 #!/usr/bin/python3
-"""Unit tests for the `city` module.
-"""
-import os
+import json
 import unittest
+from models.base_model import BaseModel
+from models.city import City
 from models.engine.file_storage import FileStorage
 from models import storage
-from models.city import City
 from datetime import datetime
-
-c1 = City()
-c2 = City(**c1.to_dict())
-c3 = City("hello", "wait", "in")
+import pycodestyle
+import models
+from io import StringIO
+import sys
+from unittest.mock import patch
 
 
 class TestCity(unittest.TestCase):
-    """Test cases for the `City` class."""
+    """ city class unit test """
 
     def setUp(self):
-        pass
+        self.city = City()
+        self.city.name = "San Francisco"
+        self.city.state_id = "CA"
 
-    def tearDown(self) -> None:
-        """Resets FileStorage data."""
-        FileStorage._FileStorage__objects = {}
-        if os.path.exists(FileStorage._FileStorage__file_path):
-            os.remove(FileStorage._FileStorage__file_path)
+    def tearDown(self):
+        del self.city
 
-    def test_params(self):
-        """Test method for class attributes"""
-        k = f"{type(c1).__name__}.{c1.id}"
-        self.assertIsInstance(c1.name, str)
-        self.assertEqual(c3.name, "")
-        c1.name = "Abuja"
-        self.assertEqual(c1.name, "Abuja")
+    def test_save_reload_city(self):
+        """ test that a City object can be saved and reloaded correctly """
+        storage.new(self.city)
+        storage.save()
 
-    def test_init(self):
-        """Test method for public instances"""
-        self.assertIsInstance(c1.id, str)
-        self.assertIsInstance(c1.created_at, datetime)
-        self.assertIsInstance(c1.updated_at, datetime)
-        self.assertEqual(c1.updated_at, c2.updated_at)
+        new_storage = FileStorage()
+        new_storage.reload()
 
-    def test_save(self):
-        """Test method for save"""
-        old_update = c1.updated_at
-        c1.save()
-        self.assertNotEqual(c1.updated_at, old_update)
+        new_objects = new_storage.all()
+        self.assertIn(f"City.{self.city.id}", new_objects)
+        new_city = new_objects[f"City.{self.city.id}"]
+        self.assertEqual(new_city.name, self.city.name)
+        self.assertEqual(new_city.state_id, self.city.state_id)
 
-    def test_todict(self):
-        """Test method for dict"""
-        a_dict = c2.to_dict()
-        self.assertIsInstance(a_dict, dict)
-        self.assertEqual(a_dict['__class__'], type(c2).__name__)
-        self.assertIn('created_at', a_dict.keys())
-        self.assertIn('updated_at', a_dict.keys())
-        self.assertNotEqual(c1, c2)
+    def test_reload(self):
+        """ ensure that reload works """
+        len_before = len(storage.all())
+        storage.new(City())
+        storage.reload()
+        len_after = len(storage.all())
+        self.assertEqual(len_after, len_before + 1)
 
 
-if __name__ == "__main__":
+class Testcodestyle(unittest.TestCase):
+    """test codestyle"""
+    def test_pep8(self):
+        """test pep8"""
+        pyc = pycodestyle.StyleGuide(quiet=True)
+        result = pyc.check_files(["models/user.py"])
+        errorMessage = "Found code style errors (and warnings)."
+        self.assertEqual(result.total_errors, 0, errorMessage)
+
+
+class testthecity(unittest.TestCase):
+    """test the city class"""
+    def test_thecity(self):
+        """test the city"""
+        new = City()
+        self.assertTrue(hasattr(new, "id"))
+        self.assertTrue(hasattr(new, "created_at"))
+        self.assertTrue(hasattr(new, "updated_at"))
+        self.assertTrue(hasattr(new, "name"))
+        self.assertTrue(hasattr(new, "state_id"))
+        """type test"""
+        self.assertIsInstance(new.name, str)
+        self.assertIsInstance(new.state_id, str)
+        self.assertIsInstance(new.updated_at, datetime)
+        self.assertIsInstance(new.created_at, datetime)
+        self.assertIsInstance(new.id, str)
+
+
+if __name__ == '__main__':
     unittest.main()

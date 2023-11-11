@@ -1,100 +1,64 @@
-"""Testing the `base_model` module."""
-import json
-import os
-import time
+#!/usr/bin/python3
+
 import unittest
-import uuid
-from datetime import datetime
 from models.base_model import BaseModel
-from models.engine.file_storage import FileStorage
+from datetime import datetime
+from time import sleep
+import pycodestyle
 
 
-class TestBase(unittest.TestCase):
-    """Test cases for the `Base` class.
-    """
+class TestBaseModel(unittest.TestCase):
+    def test_instantiation(self):
+        instance = BaseModel()
+        self.assertIsInstance(instance, BaseModel)
 
-    def setUp(self):
-        pass
+    def test_constructor_with_kwargs(self):
+        created_at_str = "2023-08-11T12:01:01.000001"
+        updated_at_str = "2023-08-12T12:02:02.000002"
+        instance = BaseModel(created_at=created_at_str,
+                             updated_at=updated_at_str)
+        self.assertEqual(instance.created_at.isoformat(), created_at_str)
+        self.assertEqual(instance.updated_at.isoformat(), updated_at_str)
 
-    def tearDown(self) -> None:
-        """Resets FileStorage data."""
-        FileStorage._FileStorage__objects = {}
-        if os.path.exists(FileStorage._FileStorage__file_path):
-            os.remove(FileStorage._FileStorage__file_path)
+    def test_constructor_with_other_attributes(self):
+        instance = BaseModel(name="TestModel", number=42)
+        self.assertEqual(instance.name, "TestModel")
+        self.assertEqual(instance.number, 42)
 
-    def test_initialization_positive(self):
-        """Test passing cases `BaseModel` initialization.
-        """
-        b1 = BaseModel()
-        b2_uuid = str(uuid.uuid4())
-        b2 = BaseModel(id=b2_uuid, name="The weeknd", album="Trilogy")
-        self.assertIsInstance(b1.id, str)
-        self.assertIsInstance(b2.id, str)
-        self.assertEqual(b2_uuid, b2.id)
-        self.assertEqual(b2.album, "Trilogy")
-        self.assertEqual(b2.name, "The weeknd")
-        self.assertIsInstance(b1.created_at, datetime)
-        self.assertIsInstance(b1.created_at, datetime)
-        self.assertEqual(str(type(b1)),
-                         "<class 'models.base_model.BaseModel'>")
+    def test_str_representation(self):
+        instance = BaseModel()
+        expected = f"[BaseModel] ({instance.id}) {instance.__dict__}"
+        self.assertEqual(str(instance), expected)
 
-    def test_dict(self):
-        """Test method for dict"""
-        b1 = BaseModel()
-        b2_uuid = str(uuid.uuid4())
-        b2 = BaseModel(id=b2_uuid, name="The weeknd", album="Trilogy")
-        b1_dict = b1.to_dict()
-        self.assertIsInstance(b1_dict, dict)
-        self.assertIn('id', b1_dict.keys())
-        self.assertIn('created_at', b1_dict.keys())
-        self.assertIn('updated_at', b1_dict.keys())
-        self.assertEqual(b1_dict['__class__'], type(b1).__name__)
-        with self.assertRaises(KeyError) as e:
-            b2.to_dict()
+    def test_save_method(self):
+        instance = BaseModel()
+        original_updated_at = instance.updated_at
+        sleep(0.1)
+        instance.save()
+        self.assertNotEqual(original_updated_at, instance.updated_at)
 
-    def test_save(self):
-        """Test method for save"""
-        b = BaseModel()
-        time.sleep(0.5)
-        date_now = datetime.now()
-        b.save()
-        diff = b.updated_at - date_now
-        self.assertTrue(abs(diff.total_seconds()) < 0.01)
+        key = "BaseModel." + instance.id
+        with open("file.json", "r") as file:
+            self.assertIn(key, file.read())
 
-    def test_save_storage(self):
-        """Tests that storage.save() is called from save()."""
-        b = BaseModel()
-        b.save()
-        key = "{}.{}".format(type(b).__name__, b.id)
-        d = {key: b.to_dict()}
-        self.assertTrue(os.path.isfile(FileStorage._FileStorage__file_path))
-        with open(FileStorage._FileStorage__file_path,
-                  "r", encoding="utf-8") as f:
-            self.assertEqual(len(f.read()), len(json.dumps(d)))
-            f.seek(0)
-            self.assertEqual(json.load(f), d)
+    def test_to_dict_method(self):
+        instance = BaseModel()
+        instance_dict = instance.to_dict()
+        expected_keys = {"id", "created_at", "updated_at", "__class__"}
+        self.assertEqual(set(instance_dict.keys()), expected_keys)
+        self.assertIsInstance(instance_dict["created_at"], str)
+        self.assertIsInstance(instance_dict["updated_at"], str)
+        self.assertEqual(instance_dict["__class__"], "BaseModel")
 
-    def test_save_no_args(self):
-        """Tests save() with no arguments."""
-        self.resetStorage()
-        with self.assertRaises(TypeError) as e:
-            BaseModel.save()
-        msg = "save() missing 1 required positional argument: 'self'"
-        self.assertEqual(str(e.exception), msg)
 
-    def test_save_excess_args(self):
-        """Tests save() with too many arguments."""
-        self.resetStorage()
-        with self.assertRaises(TypeError) as e:
-            BaseModel.save(self, 98)
-        msg = "save() takes 1 positional argument but 2 were given"
-        self.assertEqual(str(e.exception), msg)
-
-    def test_str(self):
-        """Test method for str representation"""
-        b1 = BaseModel()
-        string = f"[{type(b1).__name__}] ({b1.id}) {b1.__dict__}"
-        self.assertEqual(b1.__str__(), string)
+class Testcodestyle(unittest.TestCase):
+    """test codestyle"""
+    def test_pep8(self):
+        """test pep8"""
+        pyc = pycodestyle.StyleGuide(quiet=True)
+        result = pyc.check_files(["models/user.py"])
+        errorMessage = "Found code style errors (and warnings)."
+        self.assertEqual(result.total_errors, 0, errorMessage)
 
 
 if __name__ == "__main__":
