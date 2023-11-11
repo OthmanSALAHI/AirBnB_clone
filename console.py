@@ -184,7 +184,7 @@ class HBNBCommand(cmd.Cmd):
             print(objl)
 
     def do_update(self, arg):
-        """"""
+        """methode that update instance"""
         arg = parse_arg(arg)
         obj = storage.all()
         if len(arg) == 0:
