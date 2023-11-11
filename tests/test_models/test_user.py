@@ -12,8 +12,8 @@ from unittest.mock import patch
 
 class Testcodestyle(unittest.TestCase):
     """test codestyle"""
-    decf test_pep8(self):
-        """test pep8"""
+    def Test_pycodestyle(self):
+        """Pycodestyle test"""
         pyc = pycodestyle.StyleGuide(quiet=True)
         result = pyc.check_files(["models/user.py"])
         errorMessage = "Found code style errors (and warnings)."
