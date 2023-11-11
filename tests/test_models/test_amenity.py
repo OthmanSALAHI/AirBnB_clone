@@ -13,7 +13,7 @@ class TestAmenity(unittest.TestCase):
 
     def setUp(self):
         self.amenity = Amenity()
-        self.amenity.name = "HOTEL"
+        self.amenity.name = "Swimming Pool"
 
     def test_all(self):
         """ ensure the all() method returns

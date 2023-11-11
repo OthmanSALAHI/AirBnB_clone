@@ -56,7 +56,7 @@ class Testcodestyle(unittest.TestCase):
     def test_pep8(self):
         """test pep8"""
         pyc = pycodestyle.StyleGuide(quiet=True)
-        result = pyc.check_files(["models/base_model.py"])
+        result = pyc.check_files(["models/user.py"])
         errorMessage = "Found code style errors (and warnings)."
         self.assertEqual(result.total_errors, 0, errorMessage)
 

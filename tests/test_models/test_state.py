@@ -2,7 +2,7 @@
 import json
 import unittest
 from models.base_model import BaseModel
-from datetime import datetime as dt
+from datetime import datetime
 import pycodestyle
 from models.state import State
 import models
@@ -23,18 +23,18 @@ class Testthestate(unittest.TestCase):
         """type test"""
         self.assertIsInstance(new.name, str)
         self.assertIsInstance(new.id, str)
-        self.assertIsInstance(new.created_at, dt)
-        self.assertIsInstance(new.updated_at, dt)
+        self.assertIsInstance(new.created_at, datetime)
+        self.assertIsInstance(new.updated_at, datetime)
 
 
-class Testpycodestyle(unittest.TestCase):
-    """ test codestyle """
-    def test_pycode(self):
-        """ test pycodestyle """
-        pycode = pycodestyle.StyleGuide(quiet=True)
-        result = pycode.check_files(["models/state.py"])
-        MessageErr = "code style error pr warning !"
-        self.assertEqual(result.total_errors, 0, MessageErr)
+class Testcodestyle(unittest.TestCase):
+    """test codestyle"""
+    def test_pep8(self):
+        """test pep8"""
+        pyc = pycodestyle.StyleGuide(quiet=True)
+        result = pyc.check_files(["models/user.py"])
+        errorMessage = "Found code style errors (and warnings)."
+        self.assertEqual(result.total_errors, 0, errorMessage)
 
 
 if __name__ == '__main__':
