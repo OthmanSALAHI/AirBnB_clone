@@ -567,7 +567,8 @@ class TestHBNBcmd_destroy(unittest.TestCase):
             command = "Review.destroy({})".format(testID)
             self.assertFalse(HBNBCommand().onecmd(command))
             self.assertNotIn(obj, storage.all())
-        
+
+
 class TestHBNBcmd_count(unittest.TestCase):
     """test over count cmd"""
 
